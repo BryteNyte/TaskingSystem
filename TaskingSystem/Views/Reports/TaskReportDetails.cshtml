@@ -1,0 +1,214 @@
+﻿@model TaskingSystem.Models.TasksModel
+@{
+    ViewBag.Title = "Tasks";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+ 
+</head>
+
+<div class="row" style="margin-top:20px">
+
+    <div id="form1" class="form-horizontal ">
+
+        <section class="panel panel-primary">
+            <div class="x_panel">
+                <header class="panel-heading" style="background:#337ab7;color:#fff">
+                    <h2 class="panel-title" style="padding:10px 0px">Filter Options: Tasks</h2>
+                    <div style="float: right;top:-35px;  position: relative;">
+                        <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </header>
+
+                <div class="x_content" style="padding:0;">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Task Created By: </label>
+                            <div class="col-sm-2">
+                                @Html.DropDownList("useName", Model.Users, "", new { @class = "form-control chosen-select", id = "delegatedBy" })
+                            </div>
+                            <label class="col-sm-2 control-label">Task Assigned To: </label>
+                            <div class="col-sm-2">
+                                @Html.DropDownList("useName", Model.Users, "", new { @class = "form-control chosen-select", @id = "delegatedTo" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Date: </label>
+                            <div class="col-sm-2">
+                                @Html.DropDownListFor(model => model.tasID, Model.DateList, "", new { @class = "form-control chosen-select", id = "startdate" })
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+                        <button class="btn btn-primary" id="BookSearchButton" style="">Search</button>
+                        <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/Tasks/Tasks">Reset</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <section class="panel panel-primary">
+        <div class="x_panel">
+            <header class="panel-heading" style="margin-top:-1px;background:#337ab7;color:#fff">
+                <h2 class="panel-title" style="padding:10px 0px">User Task Summary</h2>
+                <div style="float: right;top:-35px;  position: relative;display:inline">
+
+                    <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                        <li style="float:right">
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div id="butonCustom" style="float:right"></div>
+
+                </div>
+            </header>
+            <div class="panel-body" style="padding:0;">
+                <div class="dataTables_wrapper ">
+                    <div class="row form-inline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div>
+
+                                <div class="x_content">
+                                    <table id="datatableTask" class="table table-striped dataTable table-bordered dt-responsive nowrap tableUpdate response" cellspacing="0" role="grid" width="100%">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 30px;">Date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 50px;">Assigned By User</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 50px;">Assigned To User</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 300px;">Task</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 30px;">P.O Number </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 25px;">ETA (mins) </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 25px;">Time Spent (mins) </th>
+                                                <th style="display:none;visibility:hidden"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#myDatepicker').datetimepicker();
+
+            $('#myDatepicker2').datetimepicker({
+                format: 'DD MMM YYYY',
+                ignoreReadonly: true,
+                allowInputToggle: true
+            });
+            $('#myDatepicker1').datetimepicker({
+                format: 'DD MMM YYYY',
+                ignoreReadonly: true,
+                allowInputToggle: true
+            });
+
+            var taskTable = $('#datatableTask').DataTable({
+                "order": [[0, "asc"]],
+                "ajax": {
+                    "url": "/Reports/GetTaskReportDetails",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "columns": [
+                    { "data": "tasDue_Date_String", "name": "tasDue_Date_String" },
+                    { "data": "tasDelegatedBy_Name", "name": "tasDelegatedBy_Name" },
+                    { "data": "tasDelegatedTo_Name", "name": "tasDelegatedTo_Name" },
+                    { "data": "tasTitle", "name": "tasTitle" },
+                    { "data": "tasOrderNumber", "name": "tasOrderNumber" },
+                    { "data": "tasTimeRequired", "name": "tasTimeRequired" },
+                    { "data": "tasTimeSpent", "name": "tasTimeSpent" },
+                    { "data": "tasTimeSpent", "name": "tasTimeSpent" },
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [7],
+                        "visible": false,
+                    },
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "orderMulti": "false",
+                "bDestroy": true,
+
+            });
+
+            var buttons = new $.fn.dataTable.Buttons(taskTable, {
+                buttons: [
+                    {
+                        extend: 'csv',
+                        title: 'Tasks',
+                        className: 'btn-s btn btn-primary ',
+                        text: '<a style="color:white;border-style:none !important;" ><i class="fa fa-download"></i> Export</a>',
+                        exportOptions: {
+                            columns: [0,1,2, ]
+                        }
+                    }
+                ]
+            }).container().appendTo($('#butonCustom'));
+           
+
+            oTable = $('#datatableTask').DataTable();
+           
+            $('#BookSearchButton').click(function () {
+                oTable.column(7).search($('#startdate').val());
+                oTable.draw();
+            });
+
+        });
+        $(function () {
+            $('.chosen-select').chosen();
+        });
+
+
+    </script>
+}
+
+

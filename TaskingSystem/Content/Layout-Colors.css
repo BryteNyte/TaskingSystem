@@ -1,0 +1,21 @@
+﻿.nav_menu {
+    background: #EDEDED;
+}
+.left_col {
+    background: #2A3F54;
+}
+body {
+    background: #2A3F54;
+}
+.nav.child_menu > li > a, .nav.side-menu > li > a {
+    color: #E7E7E7;
+    
+}
+.menu_section h3 {
+    
+    color: #fff;
+    text-shadow: 1px 1px #000;
+}
+.panel-primary {
+    border-color: #337ab7;
+}

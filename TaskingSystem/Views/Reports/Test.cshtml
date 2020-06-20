@@ -1,0 +1,189 @@
+﻿@model TaskingSystem.Models.TasksModel
+    @using TaskingSystem.Context
+@{
+    ViewBag.Title = "Tasks";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="row" style="margin-top:20px">
+
+    <div id="form1" class="form-horizontal ">
+
+        <section class="panel panel-primary">
+            <div class="x_panel">
+                <header class="panel-heading" style="background:#337ab7;color:#fff">
+                    <h2 class="panel-title" style="padding:10px 0px">Filter Options: Tasks</h2>
+                    <div style="float: right;top:-35px;  position: relative;">
+                        <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </header>
+
+                <div class="x_content" style="padding:0;">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Date: </label>
+                            <div class="col-sm-2">
+                                @Html.DropDownListFor(model => model.tasID, Model.DateList, "", new { @class = "form-control chosen-select", id = "startdate" })
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+                        <button class="btn btn-primary" id="BookSearchButton" style="">Search</button>
+                        <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/Tasks/Tasks">Reset</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <section class="panel panel-primary">
+        <div class="x_panel">
+            <header class="panel-heading" style="margin-top:-1px;background:#337ab7;color:#fff">
+                <h2 class="panel-title" style="padding:10px 0px">User Task Summary</h2>
+                <div style="float: right;top:-35px;  position: relative;display:inline">
+
+                    <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                        <li style="float:right">
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div id="butonCustom" style="float:right"></div>
+
+                </div>
+            </header>
+            <div class="panel-body" style="padding:0;">
+                <div class="dataTables_wrapper ">
+                    <div class="row form-inline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div>
+
+                                <div class="x_content">
+                                    <table id="datatableTask" class="table table-striped dataTable table-bordered dt-responsive nowrap tableUpdate response" cellspacing="0" role="grid" width="100%">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Company</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 30px;">Tasks Worked </th>
+                                               
+                                               
+                                                @foreach (var item in Model.Items)
+                                                {
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 50px;">@item.tasDelegatedTo_Name</th>
+                                                }
+
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 30px;">Time Spent</th>
+
+                                                <th style="display:none;visibility:hidden"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="row">
+    <section class="panel panel-primary">
+        <div class="x_panel">
+            <header class="panel-heading" style="margin-top:-1px;background:#337ab7;color:#fff">
+                <h2 class="panel-title" style="padding:10px 0px">Task Summary Break Down</h2>
+                <div style="float: right;top:-35px;  position: relative;display:inline">
+
+                    <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                        <li style="float:right">
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div id="butonCustomView" style="float:right"></div>
+
+                </div>
+            </header>
+            <div class="panel-body" style="padding:0;">
+                <div class="dataTables_wrapper ">
+                    <div class="row form-inline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div>
+
+                                <div class="x_content">
+                                    <table id="tableOverView" class="table table-striped dataTable table-bordered dt-responsive nowrap tableUpdate response" cellspacing="0" role="grid" width="100%">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Assigned By Company</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Assigned By Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Assigned To Name</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 50px;">Time Spent</th>
+
+                                                <th style="display:none;visibility:hidden"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+         
+
+           
+        $(function () {
+            $('.chosen-select').chosen();
+        });
+
+
+    </script>
+}
+
+

@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Priority Type";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="row" style="margin-top:20px">
+
+    <div id="form1" class="form-horizontal ">
+
+        <section class="panel panel-primary">
+            <div class="x_panel">
+                <header class="panel-heading" style="background:#337ab7;color:#fff">
+                    <h2 class="panel-title" style="padding:10px 0px">Filter Options: Priority Types</h2>
+                    <div style="float: right;top:-35px;  position: relative;">
+                        <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </header>
+
+                <div class="x_content" style="padding:0;display:none">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Type Name: </label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control focused" name="filt_typeName" id="filt_typeName" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+                        <button class="btn btn-primary" id="typeSearchButton" style="">Search</button>
+                        <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/TaskPriority/Priority_Details">Reset</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <section class="panel panel-primary">
+        <div class="x_panel">
+            <header class="panel-heading" style="margin-top:-1px;background:#337ab7;color:#fff">
+                <h2 class="panel-title" style="padding:10px 0px">Tasks</h2>
+                <div style="float: right;top:-35px;  position: relative;display:inline">
+                    <a class="btn-s btn btn-primary" href="~/TaskPriority/AddPriority"><i class="fa fa-plus"></i> Add</a>
+                    <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                        <li style="float:right">
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div id="butonCustom" style="float:right"></div>
+
+                </div>
+            </header>
+            <div class="panel-body" style="padding:0;">
+                <div class="dataTables_wrapper ">
+                    <div class="row form-inline">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div>
+
+                                <div class="x_content">
+                                    <table id="datatableType" class="table table-striped dataTable table-bordered dt-responsive nowrap tableUpdate response" cellspacing="0" role="grid" width="100%">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" aria-sort="ascending" style="width: 30px;">ID</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 300px;">Priority Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 100px;">Date Created</th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-ajax" rowspan="1" colspan="1" style="width: 30px;">Action</th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#myDatepicker').datetimepicker();
+
+            $('#myDatepicker2').datetimepicker({
+                format: 'DD MMM YYYY',
+                ignoreReadonly: true,
+                allowInputToggle: true
+            });
+            $('#myDatepicker1').datetimepicker({
+                format: 'DD MMM YYYY',
+                ignoreReadonly: true,
+                allowInputToggle: true
+            });
+            var typeTable = $('#datatableType').DataTable({
+
+                "order": [[0, "desc"]],
+                "ajax": {
+                    "url": "/TaskPriority/GetPriority",
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                "columns": [
+                    { "data": "ptyID", "name": "ptyID" },
+                    { "data": "ptyName", "name": "ptyName" },
+                    { "data": "ptyDate_Created", "name": "ptyDate_Created" },
+                    { "data": "Action", "name": "Action" },
+                ],
+                "serverSide": "true",
+                "processing": "true",
+                "orderMulti": "false",
+                "bDestroy": true,
+
+            });
+            var buttons = new $.fn.dataTable.Buttons(typeTable, {
+                buttons: [
+                    {
+                        extend: 'csv',
+                        title: 'Priority Types',
+                        className: 'btn-s btn btn-primary ',
+                        text: '<a style="color:white;border-style:none !important;" ><i class="fa fa-download"></i> Export</a>'
+                    }
+                ]
+            }).container().appendTo($('#butonCustom'));
+
+            oTable = $('#datatableType').DataTable();
+            $('#typeSearchButton').click(function () {
+                oTable.columns(1).search($('#filt_typeName').val().trim());
+                oTable.draw();
+            });
+        });
+    </script>
+}
+
+

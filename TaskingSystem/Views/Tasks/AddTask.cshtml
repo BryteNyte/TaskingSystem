@@ -1,0 +1,309 @@
+﻿@model TaskingSystem.Models.TasksModel
+@using TaskingSystem.Context
+@{
+    ViewBag.Title = "Add New Task";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <link href="~/Content/Layout-Colors.css" rel="stylesheet" />
+    @section Styles
+{
+        @Styles.Render("~/assets/css/fileinput.min.css")
+    }
+</head>
+@using (Html.BeginForm("AddTask", "Tasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row" style="margin-top:20px">
+
+        <div id="form1" class="form-horizontal ">
+
+            <section class="panel panel-primary">
+                <div class="x_panel">
+                    <header class="panel-heading" style="background:#337ab7;color:#fff">
+                        <h2 class="panel-title" style="padding:10px 0px">Task Details</h2>
+                        <div style="float: right;top:-35px;  position: relative;">
+                            <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </header>
+
+                    <div class="x_content">
+                        <br />
+                        <div id="address" class="form-group">
+                            <label class="col-sm-3 control-label">Company Delegated To * </label>
+                            <div class="col-sm-2">
+                                @Html.DropDownListFor(model => model.tasDelegatedTo_Company, Model.Companies, "Please select", new { @class = "form-control chosen-select", onchange = "document.forms[0].submit();", @id = "company" })
+                                <div id="companyDiv" style="display:none"><label class="text-danger">Please select a Company!</label></div>
+
+                            </div>
+                            @if (ViewBag.CompanyID > 0)
+                            {
+                                <label class="col-sm-2 control-label">Delegated To * </label>
+                                <div class="col-sm-2">
+                                    @{
+                                        UserContext user = new UserContext();
+                                        try
+                                        {
+
+                                            @Html.DropDownListFor(model => model.tasDelegatedTo, new SelectList(user.UsersDropDownController(ViewBag.CompanyID), "useID", "useName"), "Please select", new { @class = " form-control chosen-select", @id = "taskTo" })
+                                            <div id="toDiv" style="display:none"><label class="text-danger">Please select a User!</label></div>
+                                        }
+                                        catch (Exception)
+                                        {
+
+
+                                        }
+                                    }
+
+                                </div>
+                            }
+
+
+
+                        </div>
+                        <div id="address" class="form-group">
+                            <label class="col-sm-3 control-label">Delegated By *</label>
+                            <div class="col-sm-2">
+                                @*@Html.EditorFor(model => model.tasDelegatedBy_Name, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", } })*@
+                                @Html.DropDownListFor(model => model.tasDelagatedBy, Model.Users, new { @class = "form-control chosen-select", @id = "taskFrom" })
+                                <div id="fromDiv" style="display:none"><label class="text-danger">Please select a User!</label></div>
+                            </div>
+
+                            <label class="col-sm-2 control-label">Due Date *</label>
+                            <div class="col-sm-2">
+
+
+                                <div id='myDatepicker1'>
+                                    @Html.TextBoxFor(model => model.tasDue_Date, null, new { @class = "form-control datepicker", @id = "date" })
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div id="address" class="form-group">
+                            <label class="col-sm-3 control-label">Task Type *</label>
+                            <div class="col-sm-2">
+
+
+                                @Html.DropDownListFor(model => model.tasType, Model.Types, "Please select", new { @class = "form-control chosen-select", @id = "type" })
+                                <div id="typeDiv" style="display:none"><label class="text-danger">Please select a Task Type!</label></div>
+                            </div>
+                            <label class="col-sm-2 control-label">Task Priority *</label>
+                            <div class="col-sm-2">
+
+
+                                @Html.DropDownListFor(model => model.tasPriority, Model.Priorites, "Please select", new { @class = "form-control chosen-select", @id = "priority" })
+                                <div id="priorityDiv" style="display:none"><label class="text-danger">Please select a Priority!</label></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Task Title *</label>
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.tasTitle, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", @id = "title" } })
+                                <div id="titleDiv" style="display:none"><label class="text-danger">Please complete the Title form field!</label></div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Task Description *</label>
+                            <div class="col-sm-6">
+                                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control focused", @style = "width:100%;border-radius:0px ", @id = "desc" } })
+                                <div id="descDiv" style="display:none"><label class="text-danger">Please complete the Description form field!</label></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <div class="row">
+            <section class="panel panel-primary" id="gallery">
+                <div class="x_panel">
+                    <header class="panel-heading" style="background:#337ab7;color:#fff">
+                        <div class="panel-actions">
+                        </div>
+                        <h2 class="panel-title" style="padding:10px 0px">Attachment</h2>
+                    </header>
+                    <div class="panel-body">
+                        <div style="text-align:center">
+                            <div class="form-group" style="text-align:center">
+                                <input id="file-upload" name="postedFile" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png,application/pdf,application/vnd.ms-excel,application/dxf,application/acad" data-browse-class="btn btn-default" data-browse-label="Browse Images">
+                                <br />
+                                <figure class="note"><strong>Hint:</strong> You can upload all images at once!</figure>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+
+                        <input type="button" class="btn btn-primary" value="Save" id="createTask" />
+                        <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/Tasks/Tasks">Cancel</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/fileinput.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+    <script src="~/Scripts/init-wysiwyg.js"></script>
+    <script src="~/Scripts/validate-image.js"></script>
+    <script src="~/Scripts/wysiwyg-overide-buttons.js"></script>
+
+
+
+
+
+
+    <script>
+
+
+        $('#myDatepicker').datetimepicker();
+
+
+        $('#myDatepicker1').datetimepicker({
+            format: 'DD MMM YYYY',
+            minDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+            maxDate: new Date(new Date().setDate(new Date().getDate() + 42)),
+            daysOfWeekDisabled: [0, 6],
+            ignoreReadonly: true,
+            allowInputToggle: true
+        });
+
+
+        $(function () {
+            $('.chosen-select').chosen();
+        });
+
+
+
+
+         $(document).ready(function () {
+             $("#createTask").click(function () {
+                 var active = document.getElementById("companyDiv");
+                 var toDiv = document.getElementById("toDiv");
+                 var fromDiv = document.getElementById("fromDiv");
+                 var typeDiv = document.getElementById("typeDiv");
+                 var titleDiv = document.getElementById("titleDiv");
+                 var descDiv = document.getElementById("descDiv");
+                 var priorityDiv = document.getElementById("priorityDiv");
+                 active.style.display = "none";
+                 fromDiv.style.display = "none";
+                 typeDiv.style.display = "none";
+                 titleDiv.style.display = "none";
+                 descDiv.style.display = "none";
+                 priorityDiv.style.display = "none";
+                 var company = $("#company").val();
+                 var taskTo = $("#taskTo").val();
+                 var taskFrom = $("#taskFrom").val();
+                 var title = $("#title").val();
+                 var desc = $('textarea').val();
+                 var date = $("#date").val();
+                 var type = $("#type").val();
+                 var priority = $("#priority").val();
+                 var files = $("#file-upload").get(0).files;
+                 if (parseInt(taskTo) > 0) {
+                     toDiv.style.display = "none";
+                 }
+                 if (company == "" ) {
+                     active.style.display = "block";
+                 } if ( taskTo == "" ) {
+                     toDiv.style.display = "block";
+                 } if (taskFrom == "" ) {
+                     fromDiv.style.display = "block";
+                 } if ( title == "" ) {
+                     titleDiv.style.display = "block";
+                 } if ( desc == "" ) {
+                     descDiv.style.display = "block";
+                 } if (type == "") {
+                     typeDiv.style.display = "block";
+                 } if ( priority == "") {
+                     priorityDiv.style.display = "block";
+                 } if (company == "" || taskTo == "" || taskFrom == "" || title == "" || desc == "" || type == "" || priority == "") {
+                     return;
+                 }
+
+
+
+                 if (company == "" || taskTo == "" || taskFrom == "" || title == "" || desc == "" || type == "" || priority == "") {
+                     return;
+                 }
+
+                    var fileData = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append("file-upload", files[i]);
+                    }
+
+                 fileData.append("company", company);
+                 fileData.append("taskTo", taskTo);
+                 fileData.append("taskFrom", taskFrom);
+                 fileData.append("date", date);
+                 fileData.append("type", type);
+                 fileData.append("priority", priority);
+                 fileData.append("title", title);
+                 fileData.append("desc", desc);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Tasks/CreateTask",
+                        dataType: "json",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (response) {
+                            if (response.success) {
+
+                                var url = '@Url.Action("Tasks", "Tasks")';
+                                window.location.href = url;
+
+                            }
+                            else {
+
+
+
+                            }
+
+                        },
+                        error: function (response) {
+                            alert("error");
+                        }
+
+                    });
+                });
+
+
+
+            });
+
+
+
+    </script>
+}
+

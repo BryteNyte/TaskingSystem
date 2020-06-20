@@ -1,0 +1,149 @@
+﻿@model TaskingSystem.Models.Users
+@using TaskingSystem.Context
+@{
+    ViewBag.Title = "Add New User";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <link href="~/Content/Layout-Colors.css" rel="stylesheet" />
+
+</head>
+@using (Html.BeginForm("Add", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row" style="margin-top:20px">
+
+        <div id="form1" class="form-horizontal ">
+
+            <section class="panel panel-primary">
+                <div class="x_panel">
+                    <header class="panel-heading" style="background:#337ab7;color:#fff">
+                        <h2 class="panel-title" style="padding:10px 0px">User Details</h2>
+                        <div style="float: right;top:-35px;  position: relative;">
+                            <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </header>
+                    <div class="x_content">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">First Name: </label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.useName, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.useName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>								<div class="form-group">
+                                <label class="col-sm-3 control-label">Surname: </label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.useSurname, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.useSurname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>								<div class="form-group">
+                                <label class="col-sm-3 control-label">Mobile Number: </label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.useContact, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.useContact, "", new { @class = "text-danger" })
+                                </div>
+                            </div>								<div class="form-group">
+                                <label class="col-sm-3 control-label">Email-Address: </label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.useEmail, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.useEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Password: </label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.usePassword, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => model.usePassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">User Company: </label>
+                                <div class="col-sm-6 ">
+                                    @{
+                                        CompanyContext userContext = new CompanyContext();
+                                        try
+                                        {
+                                            @Html.DropDownListFor(model => model.useCompanyID, new SelectList(userContext.CompanyDropDown(), "cmpID", "cmpName"), "--Select--", new { @class = " form-control chosen-select", })
+                                            @Html.ValidationMessageFor(model => model.useCompanyID, "", new { @class = "text-danger" })
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Access Level: </label>
+                                <div class="col-sm-6 ">
+                                    @{
+                                        RoleContext cmpContext = new RoleContext();
+                                        try
+                                        {
+                                            @Html.DropDownListFor(model => model.useAccessLvl, new SelectList(cmpContext.RoleDropDown(), "admLevel", "admName"), "--Select--", new { @class = " form-control chosen-select", })
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row">
+            <section class="panel panel-primary">
+                <header class="panel-heading" style="background:#337ab7;color:#fff">
+                    <div class="panel-actions">
+                    </div>
+                    <h2 class="panel-title" style="padding:10px 0px">User Image</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Image: </label>
+                        <div class="col-sm-6">
+                            <label style="margin: 0 auto;text-decoration:underline">
+                                <input type="file" name="postedFile" id="file-upload" style="display:none" onchange="ValidateSingleInput(this);readURL(this);" />
+                                Select Image
+                            </label>
+                            <input id="uploadFile" placeholder="No File" disabled="disabled" style="width:250px;display:none" class="form-control" />
+                            <img src="#" id="imageFile" style="width:200px;height:auto;padding:0px;margin-left:5px" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" style="text-align: center">
+
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                    <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/Users/Index">Cancel</a>
+                </div>
+            </section>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/build/js/custom.min.js"></script>
+    <script src="~/Scripts/validate-image.js"></script>
+    <script>
+        $(function () {
+            $('.chosen-select').chosen();
+        });
+    </script>
+}
+

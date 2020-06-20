@@ -1,0 +1,54 @@
+﻿@model TaskingSystem.Models.TasksModel
+@{
+    Layout = null;
+}
+<label class="col-md-3 control-label">Order Number:</label>
+@if (string.IsNullOrWhiteSpace(Model.tasOrderNumber))
+{
+    <div class="col-md-2" style="padding-top:8px">
+        <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-6px" value="Add P.O Number" id="AddButton" onclick="AddNumber()" />
+        <input class="form-control" id="poNumber" style="margin-top:-6px;display:none" />
+        <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;display:none" value="Update" id="updateOrder" onclick="UpdateNumber()" />
+    </div>
+}
+else
+{
+    <div class="col-md-2" style="padding-top:8px" id="activeNumber">
+        <div style="display:inline-block">
+            @Html.DisplayFor(model => model.tasOrderNumber)
+        </div>
+        <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-6px" value="change" onclick="changeOrderNo()" />
+    </div>
+    <div class="col-md-2" style="padding-top:8px;display:none" id="updateNumber">
+        <input class="form-control" id="poNumber" style="margin-top:-6px;" />
+        <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-6px" value="Update" id="updateOrder" onclick="UpdateNumber()" />
+
+    </div>
+}
+
+
+@*@Html.DisplayFor(model => model.tasOrderNumber)*@
+
+
+
+@*@if (!string.IsNullOrWhiteSpace(Model.tasOrderNumber))
+    {
+        <div class="col-md-2" style="padding-top:8px" id="activeNumber">
+            <div style="display:inline-block" id="noDisplay">
+
+            </div>
+
+            <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-6px" value="change" onclick="changeOrderNo()" />
+        </div>
+
+        <div class="col-md-2" style="padding-top:8px;display:none" id="updateNumber">
+            <input class="form-control" id="poNumber" style="margin-top:-6px;" />
+            <input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-6px" value="Update" id="updateOrder" />
+
+        </div>
+
+    }
+    else
+    {
+
+    }*@

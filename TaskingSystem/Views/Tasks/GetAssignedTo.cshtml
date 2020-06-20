@@ -1,0 +1,10 @@
+﻿@model TaskingSystem.Models.TasksModel
+    @using TaskingSystem.Context
+@{
+    Layout = null;
+}
+
+@Html.DisplayFor(model => model.tasDelegatedTo_Name,new {id="toUser" })
+<input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-7px;" value="Change" onclick="ChangeUser()" />
+
+

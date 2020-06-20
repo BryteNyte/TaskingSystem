@@ -1,0 +1,7 @@
+﻿@model TaskingSystem.Models.TasksModel
+@{
+    Layout = null;
+}
+
+@Html.DisplayFor(model => model.tasDue_Date_String)
+<input type="button" class="btn btn-xs btn-primary " style="background-color:#f4b400 !important;border-color:#f4b400 !important;margin-top:-7px;" value="Change" onclick="ChangeDate()" />

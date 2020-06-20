@@ -1,0 +1,66 @@
+﻿@model TaskingSystem.Models.TasksModel
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model.Images)
+{
+    var path = "";
+    switch (item.imgImage_Type)
+    {
+        case "png":
+            <div style="display:inline-block">
+                <a href="@Url.Action("DownloadAttachment", "Images", new { id = item.imgID })"  class="image-popup">
+
+                    <img style="height:130px" alt="" src="@item.imgPath_To_Image">
+
+
+                </a>
+                <div><lable> @item.imgImage_Name</lable></div>
+            </div>
+
+
+            break;
+        case "jpg":
+            <div style="display:inline-block">
+                <a href="@Url.Action("DownloadAttachment", "Images", new { id = item.imgID })"  class="image-popup">
+
+                    <img style="height:130px" alt="" src="@item.imgPath_To_Image">
+
+
+                </a>
+                <div><lable> @item.imgImage_Name</lable></div>
+            </div>
+
+            break;
+        case "pdf":
+            <div style="display:inline-block">
+                <a href="@Url.Action("DownloadAttachment", "Images", new { id = item.imgID })"  class="image-popup">
+
+                    <img style="height:130px" alt="" src="~/images/pdf.png">
+
+
+                </a>
+                <div><lable> @item.imgImage_Name</lable></div>
+            </div>
+
+
+            break;
+        default:
+            <div style="display:inline-block">
+                <a href="@Url.Action("DownloadAttachment", "Images", new { id = item.imgID })"   class="image-popup">
+
+                    <img style="height:130px" alt="" src="~/images/dwg.jpg">
+
+
+                </a>
+                <div><lable> @item.imgImage_Name</lable></div>
+            </div>
+            break;
+    }
+
+
+
+
+
+}

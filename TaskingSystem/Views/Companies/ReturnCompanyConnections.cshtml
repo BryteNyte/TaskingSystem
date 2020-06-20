@@ -1,0 +1,62 @@
+﻿@model TaskingSystem.Models.CompanyModel
+@using TaskingSystem.Models
+@{
+    Layout = null;
+    Users cmp = Session["useDetails"] as Users;
+}
+
+
+<ul class="list-unstyled property-images-list">
+    @foreach (var item in Model._companies)
+    {
+
+        <li>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="property equal-height">
+                    @if (item.cndStatus == 2 && cmp.useCompanyID == item.cndActionID)
+                    {
+                        <figure class="type" title="" style="background-color:transparent !important"><input type="button" style="background-color:#eea236 !important;border-color:#eea236 !important;color:white;" value="Pending" /> </figure>
+                    }
+                    else if (item.cndStatus == 2 && cmp.useCompanyID != item.cndActionID)
+                    {
+                        <figure class="type " title="" style="background-color:transparent !important"><input type="button" style="background-color:#169F85 !important;border-color:#169F85 !important;color:white;" value="Accept Connection" onclick="AcceptConnection(@item.cmpID)" /> </figure>
+                    }
+                    else
+                    {
+                        <figure class="type" title="" style="background-color:transparent !important"><input type="button" style="background-color:#337ab7 !important;border-color:#337ab7 !important;color:white;" value="Connect" onclick="AddConnection(@item.cmpID)" /> </figure>
+                    }
+
+
+
+
+                    <a>
+                        <div class="property-image">
+                            <img alt="" src="~/images/book-863418_1920.jpg">
+                        </div>
+                        <div class="overlay">
+                            <div class="info">
+
+
+                                <h3>@item.cmpName</h3>
+
+                            </div>
+                            <ul class="additional-info">
+                                <li>
+                                    <header>Address:</header>
+                                    <figure>@item.shortAddress</figure>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </a>
+                </div><!-- /.property -->
+            </div>
+        </li>
+
+
+
+    }
+
+
+</ul>

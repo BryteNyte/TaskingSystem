@@ -1,0 +1,403 @@
+﻿@model TaskingSystem.Models.TasksModel
+@using TaskingSystem.Context
+@{
+    ViewBag.Title = "Task Details";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Content/Layout-Colors.css" rel="stylesheet" />
+
+    @section Styles
+{
+        @Styles.Render("~/assets/css/fileinput.min.css")
+
+    }
+    <style>
+        .outgoing-chats {
+            overflow: hidden;
+            margin: 26px 20px;
+        }
+
+        .outgoing-chats-msg {
+            float: left;
+            width: 46%;
+            margin-left: 45%;
+        }
+
+            .outgoing-chats-msg p {
+                background: #007bff none repeat scroll 0 0;
+                color: #fff;
+                border-radius: 10px;
+                font-size: 14px;
+                margin: 0;
+                padding: 5px 10px 5px 12px;
+                width: 100%;
+            }
+
+        .received-msg-inbox p {
+            background: #efefef none repeat scroll 0 0;
+            border-radius: 10px;
+            color: #646464;
+            font-size: 14px;
+            margin: 0;
+            padding: 5px 10px 5px 12px;
+            width: 100%;
+        }
+
+        .received-msg {
+            display: inline-block;
+            padding: 0 0 0 10px;
+            vertical-align: top;
+            width: 92%;
+        }
+
+        .received-msg-inbox {
+            width: 46%;
+        }
+
+        .time {
+            color: #777;
+            display: block;
+            font-size: 12px;
+            margin: 8px 0 0;
+        }
+    </style>
+</head>
+
+<body>
+    @using (Html.BeginForm("AddTask", "Tasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row" style="margin-top:20px">
+
+            <div class="form-horizontal col-sm-12 col-md-12 col-xs-12">
+
+                <section class="panel panel-primary">
+                    <div class="x_panel">
+                        <header class="panel-heading" style="background:#337ab7;color:#fff">
+                            <h2 class="panel-title" style="padding:10px 0px">Details</h2>
+                            <div style="float: right;top:-35px;  position: relative;">
+                                <ul class="nav navbar-right panel_toolbox" style="min-width:0">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </header>
+
+                        <div class="x_content" style="padding-bottom:20px !important">
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Task Created By </label>
+                                <div class="col-sm-2">
+                                    @Html.DisplayFor(model => model.tasTitle)
+                                </div>
+
+                                <label class="col-sm-2 control-label">Task Assigned To</label>
+                                <div class="col-sm-2">
+                                    @Html.DisplayFor(model => model.tasDelegatedTo_Name)
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Date Requested </label>
+                                <div class="col-sm-2">
+                                    @Html.DisplayFor(model => model.tasDelegatedBy_Name)
+
+
+                                </div>
+
+                                <label class="col-sm-2 control-label">Due Date </label>
+                                <div class="col-sm-2">
+                                    @Html.DisplayFor(model => model.tasDue_Date_String)
+
+                                    @if (1 == 2)
+                                    {
+                                        <div id='myDatepicker1'>
+                                            @Html.TextBoxFor(model => model.tasDue_Date, null, new { @class = "form-control datepicker", @id = "enddate" })
+
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+
+
+                            <div id="address" class="form-group">
+                                <label class="col-sm-3 control-label">Task Type </label>
+                                <div class="col-sm-2">
+
+                                    @Html.DisplayFor(model => model.tasDue_Date_String)
+
+
+                                </div>
+                                <label class="col-sm-2 control-label">Task Priority </label>
+                                <div class="col-sm-2">
+
+                                    @Html.DisplayFor(model => model.tasDue_Date_String)
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Task Status </label>
+                                <div class="col-sm-6">
+                                    @Html.DisplayFor(model => model.tasTitle)
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Task Title </label>
+                                <div class="col-sm-6">
+                                    @Html.DisplayFor(model => model.tasTitle)
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Task Description </label>
+                                <div class="col-sm-6">
+                                    @Html.DisplayFor(model => model.Description)
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </section>
+
+
+            </div>
+
+            <div class=" col-sm-12 col-md-6 col-xs-12">
+                <section class="panel panel-primary" id="gallery">
+                    <div class="x_panel">
+                        <header class="panel-heading" style="background:#337ab7;color:#fff">
+                            <div class="panel-actions">
+                            </div>
+                            <h2 class="panel-title" style="padding:10px 0px">Attachment</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div style="text-align:center">
+                                <div class="form-group" style="text-align:center">
+
+                                    <input id="file-upload" name="postedFile" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png,application/pdf,application/vnd.ms-excel,application/dxf,application/acad" data-browse-class="btn btn-default" data-browse-label="Browse Images" required>
+                                    <br />
+                                    <figure class="note"><strong>Hint:</strong> You can upload all images at once!</figure>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer" style="text-align: center">
+
+                            <input type="submit" class="btn btn-primary" value="Upload" />
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class=" col-sm-12 col-md-6 col-xs-12">
+                <section class="panel panel-primary" id="gallery">
+                    <div class="x_panel">
+                        <header class="panel-heading" style="background:#337ab7;color:#fff">
+                            <div class="panel-actions">
+                            </div>
+                            <h2 class="panel-title" style="padding:10px 0px">Feedback</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div style="padding: 10px 10px 10px 25px">
+                                <div style="height: 516px;overflow-y: auto;">
+
+                                    @if (1 == 1)
+                                    {
+                                        <div class="received-chats">
+                                            <div class="received-chats-img">
+                                                <img src="" />
+                                            </div>
+                                            <div class="received-msg">
+                                                <div class="received-msg-inbox">
+                                                    <p>Peterr <br /> gkjfghdfjkhgfdjkhgjkfdhjkgfd jkhgjfdhjgdhfjkghfdjghjgdf</p>
+                                                    <span class="time">238371789378129</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (2 == 2)
+                                    {
+
+                                        <div class="outgoing-chats">
+
+                                            <div class="outgoing-chats-msg">
+
+                                                <p>Anthony Horter <br /> yoyiotiyotioyitoiyotioyig gggggggggggggggg gggggggggggggggg</p>
+                                                <span class="time">545455454</span>
+
+                                            </div>
+                                            <div class="outgoing-chats-img">
+                                                <img src="" />
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (1 == 1)
+                                    {
+
+
+
+                                        <div class="received-chats">
+                                            <div class="received-chats-img">
+                                                <img src="" />
+                                            </div>
+                                            <div class="received-msg">
+                                                <div class="received-msg-inbox">
+
+                                                    <p>Peterr <br /> gkjfghdfjkhgfdjkhgjkfdhjkgfd jkhgjfdhjgdhfjkghfdjghjgdf</p>
+                                                    <span class="time">238371789378129</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (2 == 2)
+                                    {
+
+
+                                        <div class="outgoing-chats">
+
+                                            <div class="outgoing-chats-msg">
+
+                                                <p>Anthony Horter <br /> yoyiotiyotioyitoiyotioyig gggggggggggggggg gggggggggggggggg</p>
+                                                <span class="time">545455454</span>
+
+                                            </div>
+                                            <div class="outgoing-chats-img">
+                                                <img src="" />
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (1 == 1)
+                                    {
+
+
+
+                                        <div class="received-chats">
+                                            <div class="received-chats-img">
+                                                <img src="" />
+                                            </div>
+                                            <div class="received-msg">
+                                                <div class="received-msg-inbox">
+
+                                                    <p>Peterr <br /> gkjfghdfjkhgfdjkhgjkfdhjkgfd jkhgjfdhjgdhfjkghfdjghjgdf</p>
+                                                    <span class="time">238371789378129</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (2 == 2)
+                                    {
+
+
+                                        <div class="outgoing-chats">
+
+                                            <div class="outgoing-chats-msg">
+
+                                                <p>Anthony Horter <br /> yoyiotiyotioyitoiyotioyig gggggggggggggggg gggggggggggggggg</p>
+                                                <span class="time">545455454</span>
+
+                                            </div>
+                                            <div class="outgoing-chats-img">
+                                                <img src="" />
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-12 col-xs-12">
+
+                                <div>
+
+                                    @Html.TextAreaFor(model => model.tasTitle, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12 ">
+                                <label class="col-md-4 control-label">Time Taken (Mins) </label>
+                                <div class="col-sm-8">
+
+
+                                    @Html.EditorFor(model => model.tasTitle, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12 ">
+                                <label class="col-md-4 control-label">Time Required (Mins) </label>
+                                <div class="col-sm-8">
+
+
+                                    @Html.EditorFor(model => model.tasTitle, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="panel-footer" style="text-align: center">
+
+                            <input type="submit" class="btn btn-primary" value="Send Feedback" />
+                            <input type="button" class="btn btn-primary " style="background-color:#8c44a2 !important;border-color:#8c44a2 !important" value="On Hold" />
+                            <input type="button" class="btn btn-primary" style="background-color:#f4b400 !important;border-color:#f4b400 !important" value="In Progress" />
+                            <input type="button" class="btn btn-primary" style="background-color:#65b951 !important;border-color:#65b951 !important" value="Actioned" />
+                            <input type="button" class="btn btn-primary" style="background-color:#bc5679 !important;border-color:#bc5679 !important" value="Complete" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    }
+
+
+
+    @section scripts{
+
+        <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="~/assets/js/fileinput.min.js"></script>
+        <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/build/js/custom.min.js"></script>
+        <script src="~/Scripts/validate-image.js"></script>
+        <script>
+            $('#myDatepicker').datetimepicker();
+            $('#myDatepicker1').datetimepicker({
+                format: 'DD MMM YYYY',
+                ignoreReadonly: true,
+                allowInputToggle: true
+            });
+        </script>
+    }
+</body>
+</html>

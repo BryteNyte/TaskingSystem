@@ -1,0 +1,152 @@
+﻿@model TaskingSystem.Models.SupplierModel
+@using TaskingSystem.Models
+@{
+    ViewBag.Title = "Add New Supplier";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <link href="~/Content/Layout-Colors.css" rel="stylesheet" />
+
+</head>
+@using (Html.BeginForm("AddSupplier", "Suppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row" style="margin-top:20px">
+
+        <div id="form1" class="form-horizontal ">
+
+            <section class="panel panel-primary">
+                <div class="x_panel">
+                    <header class="panel-heading" style="background:#337ab7;color:#fff">
+                        <h2 class="panel-title" style="padding:10px 0px">Supplier Details</h2>
+                        <div style="float: right;top:-35px;  position: relative;">
+
+                        </div>
+                    </header>
+
+                    <div class="panel-body ">
+                        <br />
+                        <div id="address" class="form-group">
+                            <label class="col-sm-3 control-label">Street Number </label>
+                            <div class="col-sm-1">
+                                @Html.EditorFor(model => model.streetNumber, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "street_number", } })
+                                @Html.ValidationMessageFor(model => model.streetNumber, "", new { @class = "text-danger" })
+
+                            </div>
+                            <label class="col-sm-1 control-label">Street Name</label>
+                            <div class="col-sm-4">
+                                @Html.EditorFor(model => model.streetname, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "route", } })
+                                @Html.ValidationMessageFor(model => model.streetname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">City </label>
+
+                            <div class="col-sm-3">
+                                @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "locality", } })
+                                @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+
+                            </div>
+                            <label class="col-sm-1 control-label">Suburb </label>
+
+                            <div class="col-sm-2">
+                                @Html.EditorFor(model => model.suburb, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "locality", } })
+                                @Html.ValidationMessageFor(model => model.suburb, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Province </label>
+                            <div class="col-sm-3">
+                                @Html.EditorFor(model => model.province, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "administrative_area_level_1", } })
+                                @Html.ValidationMessageFor(model => model.province, "", new { @class = "text-danger" })
+
+                            </div>
+                            <label class="col-sm-1 control-label">Postal Code </label>
+                            <div class="col-sm-2">
+                                @Html.EditorFor(model => model.code, new { htmlAttributes = new { @class = "form-control focused", autocomplete = "off", @id = "postal_code", } })
+                                @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Company Name </label>
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.supName, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+                                @Html.ValidationMessageFor(model => model.supName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email-Address </label>
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.supEmail, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+                                @Html.ValidationMessageFor(model => model.supEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="col-sm-3 control-label">Contact Person </label>
+                            <div class="col-sm-3">
+                                @Html.EditorFor(model => model.supContactPersonName, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+                                @Html.ValidationMessageFor(model => model.supContactPersonName, "", new { @class = "text-danger" })
+                            </div>
+                            <label class="col-sm-1 control-label">Contact Number </label>
+                            <div class="col-sm-2">
+                                @Html.EditorFor(model => model.supContactPersonNumber, new { htmlAttributes = new { @class = "form-control focused ", autocomplete = "off", } })
+                                @Html.ValidationMessageFor(model => model.supContactPersonNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+
+                        <input type="submit" class="btn btn-primary" value="Save" />
+                        <a type="reset" class="btn btn-default" onclick="return confirm('Changes will be lost')" href="~/AdminCompany/AdminCompany_Details">Cancel</a>
+                    </div>
+
+
+
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/fileinput.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+
+    <script>
+
+
+
+
+
+        $(function () {
+            $('.chosen-select').chosen();
+        });
+
+
+
+
+
+
+
+    </script>
+}
+
