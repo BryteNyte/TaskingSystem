@@ -1,2 +1,2 @@
 # TaskingSystem
-Managing tasks between companies
+A MVC Project to manage tasks between companies
